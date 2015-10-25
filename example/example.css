@@ -1,0 +1,42 @@
+.example-grid {
+}
+
+.example-grid tbody tr:nth-child(odd) {
+    %background-color: #badffb;
+}
+
+.example-grid tbody tr:nth-child(even) {
+    background-color: antiquewhite;
+}
+
+.example-grid, .example-grid th, td {
+    border: 1px #87bcf1 solid;
+    border-collapse: collapse;
+}
+
+.example-grid thead tr:nth-child(even) {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#9ecaf6+0,87bcf1+68,6dabe9+100 */
+    background: #9ecaf6; /* Old browsers */
+    background: -moz-linear-gradient(top,  #9ecaf6 0%, #87bcf1 68%, #6dabe9 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#9ecaf6), color-stop(68%,#87bcf1), color-stop(100%,#6dabe9)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #9ecaf6 0%,#87bcf1 68%,#6dabe9 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #9ecaf6 0%,#87bcf1 68%,#6dabe9 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #9ecaf6 0%,#87bcf1 68%,#6dabe9 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #9ecaf6 0%,#87bcf1 68%,#6dabe9 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9ecaf6', endColorstr='#6dabe9',GradientType=0 ); /* IE6-9 */
+}
+.example-grid thead tr:nth-child(odd) {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#6dabe9+0,87bcf1+32,9ecaf6+100 */
+    background: #6dabe9; /* Old browsers */
+    background: -moz-linear-gradient(top,  #6dabe9 0%, #87bcf1 32%, #9ecaf6 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6dabe9), color-stop(32%,#87bcf1), color-stop(100%,#9ecaf6)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #6dabe9 0%,#87bcf1 32%,#9ecaf6 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #6dabe9 0%,#87bcf1 32%,#9ecaf6 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #6dabe9 0%,#87bcf1 32%,#9ecaf6 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #6dabe9 0%,#87bcf1 32%,#9ecaf6 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6dabe9', endColorstr='#9ecaf6',GradientType=0 ); /* IE6-9 */
+}
+
+.example-grid .page-buttons-container {
+    text-align: right;
+}

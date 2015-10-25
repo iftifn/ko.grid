@@ -1,0 +1,43 @@
+.grid-pager-pageButton {
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    margin-left: 1px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.grid-pager-toggleButton {
+    width: 80px;
+    height: 20px;
+    padding: 0;
+    margin-left: 1px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.grid-sort-start, .grid-sort-chain {
+    padding: 0 18px 0 0;
+    margin-left: 2px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.grid-sort-chain[disabled] {
+    pointer-events: none;
+    cursor: inherit;
+    background: none;
+    border: none;
+}
+
+.grid-sort-neutral {
+    background: url('https://github.com/iftifn/ko.grid/blob/master/src/images/sort-neutral.png') no-repeat center;
+}
+
+.grid-sort-up {
+    background: url('https://github.com/iftifn/ko.grid/blob/master/src/images/sort-up.png') no-repeat center;
+}
+
+.grid-sort-down {
+    background: url('https://github.com/iftifn/ko.grid/blob/master/src/images/sort-down.png') no-repeat center;
+}
