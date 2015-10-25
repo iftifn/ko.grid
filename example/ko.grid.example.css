@@ -31,13 +31,13 @@
 }
 
 .grid-sort-neutral {
-    background: url('https://github.com/iftifn/ko.grid/blob/master/src/images/sort-neutral.png') no-repeat center;
+    background: url('https://raw.githubusercontent.com/iftifn/ko.grid/master/src/images/sort-neutral.png') no-repeat center;
 }
 
 .grid-sort-up {
-    background: url('https://github.com/iftifn/ko.grid/blob/master/src/images/sort-up.png') no-repeat center;
+    background: url('https://raw.githubusercontent.com/iftifn/ko.grid/master/src/images/sort-up.png') no-repeat center;
 }
 
 .grid-sort-down {
-    background: url('https://github.com/iftifn/ko.grid/blob/master/src/images/sort-down.png') no-repeat center;
+    background: url('https://raw.githubusercontent.com/iftifn/ko.grid/master/src/images/sort-down.png') no-repeat center;
 }
