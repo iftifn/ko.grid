@@ -9,43 +9,42 @@
     <script type="text/javascript" src="ko.grid.js"></script>
 </head>
 <body>
-    <script id="someId" type="text/html">
+<script id="someId" type="text/html">
+    <tr>
+        <td data-bind="text: first"></td>
+        <td data-bind="text: second"></td>
+        <td data-bind="text: third"></td>
+        <td data-bind="text: numeric"></td>
+        <td data-bind="text: random"></td>
+        <td data-bind="text: random2"></td>
+    </tr>
+</script>
+<div>
+    <table class="example-grid" data-bind="with: gridViewModel">
+        <thead>
         <tr>
-            <td data-bind="text: first"></td>
-            <td data-bind="text: second"></td>
-            <td data-bind="text: third"></td>
-            <td data-bind="text: numeric"></td>
-            <td data-bind="text: random"></td>
-            <td data-bind="text: random2"></td>
+            <th class="page-buttons-container" colspan="6" data-bind="grid.pager: pager"></th>
         </tr>
-    </script>
-    <div>
-        <table class="example-grid" data-bind="with: gridOptions">
-            <thead>
-                <tr>
-                    <th  class="page-buttons-container" colspan="6" data-bind="grid.pager.pageButtons: pager"></th>
-                </tr>
-                <tr>
-                    <th data-bind="grid.sort: { grid: $data, method: sort.alphabetic, field: 'first', text: 'alphabetic'}"></th>
-                    <th data-bind="grid.sort: { grid: $data, method: sort.alphabetic, field: 'second', text: 'alphabetic'}"></th>
-                    <th data-bind="grid.sort: { grid: $data, method: sort.alphabetic, field: 'third', text: 'alphabetic'}"></th>
-                    <th data-bind="grid.sort: { grid: $data, method: sort.numeric, field: 'numeric', text: 'numeric'}"></th>
-                    <th data-bind="grid.sort: { grid: $data, method: sort.alphabetic, field: 'random', text: 'alphabetic'}"></th>
-                    <th data-bind="grid.sort: { grid: $data, method: sort.alphabeticCaseSensitive, field: 'random2', text: 'alphabetic case sensitive'}"></th>
-                </tr>
-            </thead>
-            <tbody data-bind="template: { name: 'someId', foreach: rows }"></tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="6">
-                        <button data-bind="click: pager.extendRowsPerPage">extend</button>
-                        <button data-bind="click: pager.prevPage, enable: pager.prevPageAvailable">prevPage</button>
-                        <button data-bind="click: pager.nextPage, enable: pager.nextPageAvailable">nextPage</button>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
-    <script type="text/javascript" src="RootViewModel.js"></script>
+        <tr>
+            <th data-bind="grid.sort: { grid: $data, method: sort.alphabetic, field: 'first', text: 'alphabetic'}"></th>
+            <th data-bind="grid.sort: { grid: $data, method: sort.alphabetic, field: 'second', text: 'alphabetic'}"></th>
+            <th data-bind="grid.sort: { grid: $data, method: sort.alphabetic, field: 'third', text: 'alphabetic'}"></th>
+            <th data-bind="grid.sort: { grid: $data, method: sort.numeric, field: 'numeric', text: 'numeric'}"></th>
+            <th data-bind="grid.sort: { grid: $data, method: sort.alphabetic, field: 'random', text: 'alphabetic'}"></th>
+            <th data-bind="grid.sort: { grid: $data, method: sort.alphabeticCaseSensitive, field: 'random2', text: 'alphabetic case sensitive'}"></th>
+        </tr>
+        </thead>
+        <tbody data-bind="template: { name: 'someId', foreach: rows }"></tbody>
+        <tfoot>
+        <tr>
+            <td colspan="6">
+                <button data-bind="click: pager.prevPage, enable: pager.prevPageAvailable">prevPage</button>
+                <button data-bind="click: pager.nextPage, enable: pager.nextPageAvailable">nextPage</button>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+<script type="text/javascript" src="RootViewModel.js"></script>
 </body>
 </html>

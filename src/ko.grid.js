@@ -1,5 +1,5 @@
 /**
- * Created by SAns on 05.08.2015.
+ * Created by Alexander I. Petrusenko on 05.08.2015.
  */
 
 (function () {
@@ -14,8 +14,8 @@
             }
         };
     }();
-    ko.bindingHandlers['grid.pager.pageButtons'] = {
-        init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+    ko.bindingHandlers['grid.pager'] = {
+        init: function (element, valueAccessor) {
             var pager = ko.unwrap(valueAccessor());
             var cachedPagesState;
             var initPages = function () {
@@ -31,21 +31,18 @@
                         button.setAttribute('class', 'grid-pager-pageButton');
                         button.innerHTML = '' + (i + 1);
                         element.appendChild(button);
-                        var clickAccessor = function (pageIndex) {
+                        button.onclick = function (pageIndex) {
                             return function () {
                                 pager.changePage(pageIndex)
                             };
                         }(i);
-                        button.onclick = clickAccessor;
                     }
                 }
                 var toggleButton = document.createElement('button');
                 toggleButton.setAttribute('class', 'grid-pager-toggleButton');
                 toggleButton.innerHTML = pagesCount > 1 ? 'Show all' : 'Show pages';
                 element.appendChild(toggleButton);
-                ko.bindingHandlers.click.init(toggleButton, function () {
-                    return pager.togglePages
-                }, allBindings, viewModel, bindingContext);
+                toggleButton.onclick = pager.togglePages;
                 cachedPagesState = pager.pages();
             };
             pager.pages.subscribe(initPages);
@@ -55,7 +52,7 @@
         }
     };
     ko.bindingHandlers['grid.sort'] = {
-        init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+        init: function (element, valueAccessor) {
             var sortOptions = {
                 method: ko.grid.sort.alphabetic
             };
@@ -64,7 +61,7 @@
             var startDirection = ko.observable(0);
             var chainDirection = ko.observable(0);
             var directionClassRegex = /grid-sort-(?:neutral|up|down)/i;
-            var directionClassChangeFunction = function (element, directionObservable, isChain) {
+            var directionClassChangeFunction = function (element, directionObservable) {
                 return function () {
                     var classes = element.getAttribute('class');
                     var directionClass;
@@ -115,21 +112,19 @@
 
             // Chain sort button
             var chainIndex = ko.observable(-1);
-            var chainButtonText = function () {
-                if (chainDirection() === 0)
-                    return 0;
-                return chainDirection() + '|' + chainIndex();
-            };
             var chainSortButton = document.createElement('span');
             chainSortButton.setAttribute('class', 'grid-sort-chain grid-sort-neutral');
             chainIndex.subscribe(directionClassChangeFunction(chainSortButton, chainDirection, true));
             chainDirection.subscribe(directionClassChangeFunction(chainSortButton, chainDirection, true));
             chainDirection.valueHasMutated();
             var chainSortButtonClickAccessor = function (event) {
-                if (chainDirection() !== 1)
+                var currentDirection = chainDirection();
+                if (currentDirection == 0)
                     chainDirection(1);
-                else
+                else if (currentDirection == 1)
                     chainDirection(-1);
+                else
+                    chainDirection(0);
                 var entry = {
                     method: sortOptions.method,
                     field: sortOptions.field,
@@ -140,7 +135,10 @@
                 var sortChain = sortOptions.grid.sortChain();
                 for (var i = 0; i < sortChain.length; i++) {
                     if (sortChain[i].element === element) {
-                        sortOptions.grid.sortChain.replace(sortChain[i], entry);
+                        if (chainDirection() !== 0)
+                            sortOptions.grid.sortChain.replace(sortChain[i], entry);
+                        else
+                            sortOptions.grid.sortChain.splice(i, 1);
                         chainIndex(i);
                         found = true;
                         break;
@@ -222,6 +220,7 @@
                 return diff;
             };
         };
+        //noinspection JSUnusedGlobalSymbols
         this.alphabeticCaseSensitive = function (field, direction, sortChain) {
             return function (a, b) {
                 var diff;
@@ -261,6 +260,7 @@
             return Math.ceil(array.length / rowsPerPage()) - 1;
         });
         var currentRowsObservable = ko.pureComputed(function () {
+            sort();
             ko.unwrap(sortHandler);
             var array = ko.unwrap(defaultGridOptions.rows);
             if (!defaultGridOptions.pager || showAll())
@@ -276,21 +276,14 @@
                 currentPage(maxPageIndex);
                 startIndex = maxPageIndex * rpp;
             }
-            var resArray = array.slice(startIndex, endIndex);
-            return resArray;
+            return array.slice(startIndex, endIndex);
         });
 
         // Pager
         var rowsPerPage;
-        var extendRowsPerPage;
         var pager;
         if (defaultGridOptions.pager) {
             rowsPerPage = ko.observable(defaultGridOptions.pager.rowsPerPage);
-            if (defaultGridOptions.pager.dynamic) {
-                extendRowsPerPage = function () {
-                    rowsPerPage(rowsPerPage() * 2);
-                };
-            }
             var prevPageAvailable = ko.pureComputed(function () {
                 return currentPage() > 0;
             });
@@ -298,6 +291,7 @@
                 return currentPage() < maxPage();
             });
             pager = function () {
+                //noinspection JSUnusedGlobalSymbols
                 return {
                     rowsPerPage: rowsPerPage,
                     currentPage: currentPage,
@@ -324,7 +318,6 @@
                     nextPage: function () {
                         currentPage(currentPage() + 1);
                     },
-                    extendRowsPerPage: extendRowsPerPage,
                     pages: ko.pureComputed(function () {
                         if (showAll())
                             return 0;
@@ -332,16 +325,21 @@
                     }),
                     togglePages: function () {
                         showAll(!showAll());
-                    }
+                    },
+                    showAllCaption: defaultGridOptions.pager.showAllCaption != null && defaultGridOptions.pager.showAllCaption != undefined ? defaultGridOptions.pager.showAllCaption : 'Show All',
+                    showPagesCaption: defaultGridOptions.pager.showPagesCaption != null && defaultGridOptions.pager.showPagesCaption != undefined ? defaultGridOptions.pager.showPagesCaption : 'Show pages'
                 }
             }();
         }
 
         var sortHandler = ko.observable(null);
         var sortChain = ko.observableArray([]);
-        sortChain.subscribe(function () {
+        var sort = function () {
             var chain = ko.grid.sort.buildSortChain(sortChain());
             defaultGridOptions.rows.sort(chain);
+        };
+        sortChain.subscribe(function () {
+            sort();
             sortHandler.valueHasMutated();
         });
 
